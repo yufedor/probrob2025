@@ -3,12 +3,12 @@ clear
 clc
 
 % Read the dataset file
-fid = fopen('dataset.txt', 'r');
+fid = fopen('dataset/dataset.txt', 'r');
 lines = {};
 tline = fgetl(fid);
 while ischar(tline)
-    lines{end+1} = tline;
-    tline = fgetl(fid);
+  lines{end+1} = tline;
+  tline = fgetl(fid);
 end
 fclose(fid);
 
@@ -18,14 +18,14 @@ y = [];
 
 % Process lines (skip first 9)
 for i = 10:length(lines)
-    line = strtrim(lines{i});
-    tokens = ostrsplit(line, ':');
-    tracker_pose = strtrim(tokens{end});
-    xy = str2double(strsplit(tracker_pose));
-    if numel(xy) >= 2
-        x(end+1) = xy(1);
-        y(end+1) = xy(2);
-    end
+  line = strtrim(lines{i});
+  tokens = ostrsplit(line, ':');
+  tracker_pose = strtrim(tokens{end});
+  xy = str2double(strsplit(tracker_pose));
+  if numel(xy) >= 2
+    x(end+1) = xy(1);
+    y(end+1) = xy(2);
+  end
 end
 
 % Plot
@@ -35,3 +35,11 @@ axis equal;
 xlabel('x');
 ylabel('y');
 title('Tracker Pose');
+
+[parameters, data] = parseDataset('dataset/dataset.txt');
+figure;
+plot(data.tracker_pose(:,1), data.tracker_pose(:,2), '.-');
+axis equal;
+title('Tracker Pose (Ground Truth)');
+xlabel('x (m)');
+ylabel('y (m)');
