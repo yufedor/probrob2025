@@ -1,3 +1,7 @@
+#extracts and parse the data that come from the sensor of a real robot
+#filename: path to position of dataset file
+#parameters: structure that contains initial parameters
+#data: structure that stores extracted data from dataset
 function [parameters, data] = parseDataset(filename)
   fid = fopen(filename, 'r');
   if fid == -1
@@ -5,7 +9,7 @@ function [parameters, data] = parseDataset(filename)
     return;
   end
 
-  % Initialize containers
+  #initialize containers
   time = [];
   steer_ticks = [];
   traction_ticks = [];
@@ -16,7 +20,7 @@ function [parameters, data] = parseDataset(filename)
   tracker_y = [];
   tracker_theta = [];
 
-  % Skip the first 9 lines that are comments and get parameters
+  #skip the first 9 lines that are comments and get parameters
   for i = 1:9
     line = fgetl(fid);
     if strfind(line,'parameter_values')
@@ -41,10 +45,10 @@ function [parameters, data] = parseDataset(filename)
       continue;
     end
 
-    % split string in array to extract values
+    #split string in array to extract values
     tokens = ostrsplit(line, ':');
 
-    % Store extracted values
+    #store extracted values
     time(end+1,1) = str2double(erase(char(tokens(1,2)), ' ticks'));
 
     temp = erase(char(tokens(1,3)), ' model_pose');
@@ -70,7 +74,7 @@ function [parameters, data] = parseDataset(filename)
 
   fclose(fid);
 
-  % Store into a struct
+  #store into a struct
   data.time = time;
   data.steer_ticks = steer_ticks;
   data.traction_ticks = traction_ticks;
