@@ -1,0 +1,70 @@
+Iter 1:
+ chi^2 = 0.000011
+ Ksteer       = 0.100000 
+ Ktraction    = 0.010614 
+ steer_offset = 0.000000 
+ axis_length  = 1.400000 
+
+Iter 2:
+ chi^2 = 0.000011
+ Ksteer       = 0.100000 
+ Ktraction    = 0.010614 
+ steer_offset = 0.000000 
+ axis_length  = 1.400000 
+
+length  = -12097.157867 
+
+ Ksteer       = 0.100000 
+ Ktraction    = 0.010614 
+ steer_offset = 0.000000 
+ axis_length  = 1.400000 
+
+Iter 4:
+ chi^2 = 0.000011
+ Ksteer       = 0.100000 
+ Ktraction    = 0.010614 
+ steer_offset = 0.000000 
+ axis_length  = 1.400000 
+
+Iter 5:
+ chi^2 = 0.000011
+ Ksteer       = 0.100000 
+ Ktraction    = 0.010614 
+ steer_offset = 0.000000 
+ axis_length  = 1.400000 
+
+Iter 6:
+ chi^2 = 0.000011
+ Ksteer       = 0.100000 
+ Ktraction    = 0.010614 
+ steer_offset = 0.000000 
+ axis_length  = 1.400000 
+
+Iter 7:
+ chi^2 = 0.000011
+ Ksteer       = 0.100000 
+ Ktraction    = 0.010614 
+ steer_offset = 0.000000 
+ axis_length  = 1.400000 
+
+Iter 8:
+ chi^2 = 0.000011
+ Ksteer       = 0.100000 
+ Ktraction    = 0.010614 
+ steer_offset = 0.000000 
+ axis_length  = 1.400000 
+
+Iter 9:
+ chi^2 = 0.000011
+ Ksteer       = 0.100000 
+ Ktraction    = 0.010614 
+ steer_offset = 0.000000 
+ axis_length  = 1.400000 
+
+Iter 10:
+ chi^2 = 0.000011
+ Ksteer       = 0.100000 
+ Ktraction    = 0.010614 
+ steer_offset = 0.000000 
+ axis_length  = 1.400000 
+

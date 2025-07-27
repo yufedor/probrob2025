@@ -1,30 +1,32 @@
+1;
+
 #computes odometry motion model given parameters x and encoder inputs
 #x:	the actual calibration parameters
 #ticks: the reading of the encoders
 #delta: the estimated displacement in robot frame
 function delta = h_odom(x, ticks)
-    ksteer = x(1);
-    ktraction = x(2);
-    steer_offset = x(3);
-    L = x(4);
+  ksteer = x(1);
+  ktraction = x(2);
+  steer_offset = x(3);
+  L = x(4);
 
-    steer_tick = ticks(1);
-    tr = ticks(2);
+  steer_tick = ticks(1);
+  tr = ticks(2);
 
-    alpha = ksteer * steer_tick + steer_offset;
-    ds = ktraction * tr;
-    dtheta = (ds / L) * tan(alpha);
+  alpha = ksteer * steer_tick + steer_offset;
+  ds = ktraction * tr;
+  dtheta = (ds / L) * tan(alpha);
 
-    if abs(dtheta) < 1e-6
-        dx = ds * cos(alpha);
-        dy = ds * sin(alpha);
-    else
-        R = ds / dtheta;
-        dx = R * sin(dtheta);
-        dy = R * (1 - cos(dtheta));
-    end
+  if abs(dtheta) < 1e-6
+    dx = ds * cos(alpha);
+    dy = ds * sin(alpha);
+  else
+    R = ds / dtheta;
+    dx = R * sin(dtheta);
+    dy = R * (1 - cos(dtheta));
+  end
 
-    delta = [dx; dy; dtheta];
+  delta = [dx; dy; dtheta];
 end
 
 #compute the error and the Jacobian for one measurement z
@@ -49,7 +51,7 @@ function [e, J] = errorAndJacobian(x,z)
 end
 
 #performs odometry parameter calibration using a Gauss-Newton least-squares loop
-#aaccumulates total error and Jacobians over all measurements
+#accumulates total error and Jacobians over all measurements
 #x: the actual calibration parameters
 #z: the measurement matrix
 #x_new: the estimate calibration parameters
@@ -57,7 +59,7 @@ end
 function [x_new, chi] = oneRound(x, Z)
   H = zeros(4,4);
   b = zeros(4,1);
-  nmeas = size(Z,2);
+  nmeas = size(Z,3);
   chi = 0;
   for i = 1:nmeas
     [e, J] = errorAndJacobian(x, Z(:,i));
@@ -69,3 +71,16 @@ function [x_new, chi] = oneRound(x, Z)
   x_new = x + dx;
 end
 
+#simulate trajectory based on odometry and estimated parameters
+#odom_pose: estimated pose
+function odom_pose = simulateOdometryTrajectory(steer_ticks, traction_deltas, x)
+  n = length(traction_deltas);
+  odom_pose = zeros(n, 3); % [x, y, theta]
+  for i = 2:n
+    ticks = [steer_ticks(i); traction_deltas(i)];
+    delta = h_odom(x, ticks);
+    odom_pose(i,1) = odom_pose(i-1,1) + delta(1)*cos(odom_pose(i-1,3)) - delta(2)*sin(odom_pose(i-1,3));
+    odom_pose(i,2) = odom_pose(i-1,2) + delta(1)*sin(odom_pose(i-1,3)) + delta(2)*cos(odom_pose(i-1,3));
+    odom_pose(i,3) = odom_pose(i-1,3) + delta(3);
+  end
+end

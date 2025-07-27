@@ -27,9 +27,9 @@ function [parameters, data] = parseDataset(filename)
       tokens = ostrsplit(line, ' ');
       tokens = tokens(~cellfun(@isempty, tokens));
       parameters.Ksteer = str2double(tokens(1,2));
-      parameters.Ktraction = str2double(tokens(1,2));
-      parameters.axis_length = str2double(tokens(1,3));
-      parameters.steer_offset = str2double(tokens(1,4));
+      parameters.Ktraction = str2double(tokens(1,3));
+      parameters.axis_length = str2double(tokens(1,4));
+      parameters.steer_offset = str2double(tokens(1,5));
     end
     if strfind(line,'joints_max_enc_values')
       tokens = ostrsplit(line, ' ');
