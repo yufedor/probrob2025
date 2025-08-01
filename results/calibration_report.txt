@@ -1,0 +1,26 @@
+=== ODOMETRY CALIBRATION REPORT ===
+Date: 01-Aug-2025 16:55:41
+Dataset: dataset/dataset.txt
+
+--- INITIAL PARAMETERS ---
+Ksteer       = 0.100000
+Ktraction    = 0.010614
+steer_offset = 0.000000
+axis_length  = 1.400000
+
+--- FINAL CALIBRATED PARAMETERS ---
+Ksteer       = -23.039562
+Ktraction    = -0.000000
+steer_offset = -0.393500
+axis_length  = -31615416975739.199219
+
+--- CALIBRATION STATISTICS ---
+Number of iterations: 7
+Final chi-squared error: 1.043858e+00
+Number of measurements: 2432
+
+--- TRAJECTORY ERROR STATISTICS ---
+X Error - Mean: 0.5640 m, Std: 2.1095 m, RMS: 2.1831 m
+Y Error - Mean: 0.9722 m, Std: 1.3441 m, RMS: 1.6586 m
+Theta Error - Mean: 0.1524 rad, Std: 1.7181 rad, RMS: 1.7245 rad
+Euclidean Error - Mean: 2.3323 m, Std: 1.4417 m, Max: 5.0070 m

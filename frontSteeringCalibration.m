@@ -59,7 +59,7 @@ end
 function [x_new, chi] = oneRound(x, Z)
   H = zeros(4,4);
   b = zeros(4,1);
-  nmeas = size(Z,3);
+  nmeas = size(Z,2);
   chi = 0;
   for i = 1:nmeas
     [e, J] = errorAndJacobian(x, Z(:,i));
@@ -79,8 +79,32 @@ function odom_pose = simulateOdometryTrajectory(steer_ticks, traction_deltas, x)
   for i = 2:n
     ticks = [steer_ticks(i); traction_deltas(i)];
     delta = h_odom(x, ticks);
-    odom_pose(i,1) = odom_pose(i-1,1) + delta(1)*cos(odom_pose(i-1,3)) - delta(2)*sin(odom_pose(i-1,3));
-    odom_pose(i,2) = odom_pose(i-1,2) + delta(1)*sin(odom_pose(i-1,3)) + delta(2)*cos(odom_pose(i-1,3));
-    odom_pose(i,3) = odom_pose(i-1,3) + delta(3);
+
+    # Current pose
+    x_curr = odom_pose(i-1,1);
+    y_curr = odom_pose(i-1,2);
+    theta_curr = odom_pose(i-1,3);
+
+    # Transform delta from robot frame to global frame
+    cos_theta = cos(theta_curr);
+    sin_theta = sin(theta_curr);
+
+    # Rotation matrix transformation
+    dx_global = delta(1) * cos_theta - delta(2) * sin_theta;
+    dy_global = delta(1) * sin_theta + delta(2) * cos_theta;
+    dtheta_global = delta(3);
+
+    # Update pose
+    odom_pose(i,1) = x_curr + dx_global;
+    odom_pose(i,2) = y_curr + dy_global;
+    odom_pose(i,3) = theta_curr + dtheta_global;
+
+    # Normalize angle
+    while odom_pose(i,3) > pi
+      odom_pose(i,3) -= 2*pi;
+    end
+    while odom_pose(i,3) < -pi
+      odom_pose(i,3) += 2*pi;
+    end
   end
 end
